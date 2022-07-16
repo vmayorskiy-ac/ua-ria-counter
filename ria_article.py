@@ -3,15 +3,13 @@ import boto3
 import requests
 import pprint
 import time
-from urllib import parse
-
 
 def main():
     #url = 'https://ria.ru'
     #article_id = '1796174981'
     #loops = 9
     #like = 's6'
-    url, article_id, comment_id, like, loops = get_params_for_comment()
+    url, article_id, like, loops = get_params()
 
     for i in range(loops):
         for j in [1]:
@@ -20,7 +18,7 @@ def main():
 
             session = requests.Session()
             session.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0'
-            session.headers['Origin'] = 'https://ria.ru'
+            session.headers['Origin'] = f'{url}'
             session.headers['Referer'] = f'{url}'
 
             response = session.get(url)
@@ -28,16 +26,8 @@ def main():
             #delay = 1.25
             time.sleep(delay)
 
-            # article emoji url
-            #url2 = f'https://ria.ru/services/article/add_emoji/?article_id={article_id}&emotion={like}'
-
-            # comment emoji url
-            url2 = f'https://ria.ru/services/chat/add_emoji/'
-            
-            # article_id=1796642669&message_id=62b01587828b0bf611315c17&emotion=s1
-            #data = f'article_id={article_id}&message_id={comment_id}&emotion={like}'
-            data = { 'article_id': f'{article_id}', 'message_id': f'{comment_id}', 'emotion': f'{like}' }
-            response = session.post(url2, data=data)
+            url2 = f'https://ria.ru/services/article/add_emoji/?article_id={article_id}&emotion={like}'
+            response = session.post(url2)
 
             #print('********************')
             #print(response.headers)
@@ -45,22 +35,6 @@ def main():
             print(f'loop: {i}, like: {like}, status_code: {response.status_code}')
             print('********************')
             print(response.text)
-
-
-def get_params_for_comment():
-    ssm = boto3.client('ssm', region_name='us-east-1')
-    param = ssm.get_parameter(Name='/ria/comment_url')
-    comment_url = param['Parameter']['Value']
-    #url = 'https://ria.ru/20220620/kuleba-1796642669.html?chat_message_id=62b01587828b0bf611315c17&chat_room_id=1796642669'
-
-    article_id = parse.parse_qs(parse.urlparse(comment_url).query)['chat_room_id'][0] 
-    message_id = parse.parse_qs(parse.urlparse(comment_url).query)['chat_message_id'][0] 
-
-    param = ssm.get_parameter(Name='/ria/like')
-    like = param['Parameter']['Value']
-    param = ssm.get_parameter(Name='/ria/loops')
-    loops = int(param['Parameter']['Value'])
-    return comment_url, article_id, message_id, like, loops
 
 
 def get_params():
@@ -76,15 +50,6 @@ def get_params():
     loops = int(param['Parameter']['Value'])
     return article_url, article_id, like, loops
 
-
-def test_comment_url():
-    article_url, article_id, comment_id, like, loops = get_params_for_comment()
-    print(article_url)
-    print(article_id)
-    print(comment_id)
-    print(like)
-    print(loops)
-    
 
 def test_article_url():
     article_url, article_id, like, loops = get_params()
@@ -125,7 +90,7 @@ def test_eip():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     main()
-    #test_comment_url()
+    #test_article_url()
 
 
 
