@@ -21,11 +21,10 @@ def get_params_for_comment():
     comment_urls = param_dict['urls']
 
     like_distro = param_dict['likes'] 
-    loops = param_dict['loops']
+    loops_distro = param_dict['loops']
     ec2_end_action = param_dict['ec2_end_action'] 
     apply_ec2_end_action = param_dict['apply_ec2_end_action'] == 'True'
-    #loops = int(param['Parameter']['Value'].strip())
-    return comment_urls, like_distro, loops, ec2_end_action, apply_ec2_end_action
+    return comment_urls, like_distro, loops_distro, ec2_end_action, apply_ec2_end_action
 
 
 def get_params_for_comment_old():
@@ -59,10 +58,10 @@ def get_params():
 
 
 def test_comment_url():
-    article_url, like, loops, ec2_end_action, apply_ec2_end_action = get_params_for_comment()
+    article_url, like, loops_distro, ec2_end_action, apply_ec2_end_action = get_params_for_comment()
     print(article_url)
     print(like)
-    print(loops)
+    print(loops_distro)
     print(ec2_end_action)
     print(apply_ec2_end_action)
     

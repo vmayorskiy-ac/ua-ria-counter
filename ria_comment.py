@@ -10,9 +10,12 @@ import ec2
 
 
 def main():
-    urls, like_distro, loops, ec2_end_action, apply_ec2_end_action = params.get_params_for_comment()
+    urls, like_distro, loops_distro, ec2_end_action, apply_ec2_end_action = params.get_params_for_comment()
 
-    for url in urls:
+    for i in range(len(urls)):
+        url = urls[i]
+        loops = loops_distro[i]
+        
         article_id = parse.parse_qs(parse.urlparse(url).query)['chat_room_id'][0]
         comment_id = parse.parse_qs(parse.urlparse(url).query)['chat_message_id'][0]
 
@@ -29,7 +32,7 @@ def main():
             delay = 0.25
             time.sleep(delay)
 
-            like = get_like_from_distro(like_distro)
+            like = get_like_from_distro(like_distro[i])
 
             # article emoji url
             #url2 = f'https://ria.ru/services/article/add_emoji/?article_id={article_id}&emotion={like}'
