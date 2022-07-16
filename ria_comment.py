@@ -10,40 +10,45 @@ import ec2
 
 
 def main():
-    url, article_id, comment_id, like_distro, loops, ec2_end_action, apply_ec2_end_action = params.get_params_for_comment()
+    urls, like_distro, loops, ec2_end_action, apply_ec2_end_action = params.get_params_for_comment()
 
-    for i in range(loops):
-        time.sleep(0.25)
-        response = requests.get(url)
+    for url in urls:
+        article_id = parse.parse_qs(parse.urlparse(url).query)['chat_room_id'][0]
+        comment_id = parse.parse_qs(parse.urlparse(url).query)['chat_message_id'][0]
 
-        session = requests.Session()
-        session.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0'
-        session.headers['Origin'] = 'https://ria.ru'
-        session.headers['Referer'] = f'{url}'
+        for i in range(loops):
+            time.sleep(0.25)
+            response = requests.get(url)
 
-        response = session.get(url)
-        #delay = random.randrange(1, 4, 1)
-        delay = 0.25
-        time.sleep(delay)
+            session = requests.Session()
+            session.headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0'
+            session.headers['Origin'] = 'https://ria.ru'
+            session.headers['Referer'] = f'{url}'
 
-        like = get_like_from_distro(like_distro)
+            response = session.get(url)
+            delay = 0.25
+            time.sleep(delay)
 
-        # article emoji url
-        #url2 = f'https://ria.ru/services/article/add_emoji/?article_id={article_id}&emotion={like}'
+            like = get_like_from_distro(like_distro)
 
-        # comment emoji url
-        url2 = f'https://ria.ru/services/chat/add_emoji/'
+            # article emoji url
+            #url2 = f'https://ria.ru/services/article/add_emoji/?article_id={article_id}&emotion={like}'
+
+            # comment emoji url
+            url2 = f'https://ria.ru/services/chat/add_emoji/'
             
-        # article_id=1796642669&message_id=62b01587828b0bf611315c17&emotion=s1
-        data = { 'article_id': f'{article_id}', 'message_id': f'{comment_id}', 'emotion': f'{like}' }
-        response = session.post(url2, data=data)
+            # article_id=1796642669&message_id=62b01587828b0bf611315c17&emotion=s1
+            data = { 'article_id': f'{article_id}', 'message_id': f'{comment_id}', 'emotion': f'{like}' }
 
-        #print('********************')
-        #print(response.headers)
-        print('********************')
-        print(f'loop: {i}, like: {like}, status_code: {response.status_code}')
-        print('********************')
-        print(response.text)
+            response = session.post(url2, data=data)
+
+            #print('********************')
+            #print(response.headers)
+            print('********************')
+            print(f'{data}')
+            print(f'loop: {i}, like: {like}, status_code: {response.status_code}')
+            print('********************')
+            print(response.text)
 
     ec2.terminate_self(action = ec2_end_action, apply_action = apply_ec2_end_action)
 
@@ -63,8 +68,6 @@ def get_like_from_distro(distro='s1:2, s3:1', k=1):
     print(weights)
     print('XXXXXXXXXXXX')
 
-    list = ['s1', 's2', 's3']
-    #res = random.choices(list, weights = (4, 2, 1), k=k)
     res = random.choices(likes, weights = weights, k=k)
     print(res)
     return res[0]

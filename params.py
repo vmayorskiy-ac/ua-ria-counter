@@ -18,16 +18,14 @@ def get_params_for_comment():
 
     pprint.pprint(param_dict)
 
-    comment_url = param_dict['url']
-    article_id = parse.parse_qs(parse.urlparse(comment_url).query)['chat_room_id'][0] 
-    message_id = parse.parse_qs(parse.urlparse(comment_url).query)['chat_message_id'][0] 
+    comment_urls = param_dict['urls']
 
     like_distro = param_dict['likes'] 
     loops = param_dict['loops']
     ec2_end_action = param_dict['ec2_end_action'] 
     apply_ec2_end_action = param_dict['apply_ec2_end_action'] == 'True'
     #loops = int(param['Parameter']['Value'].strip())
-    return comment_url, article_id, message_id, like_distro, loops, ec2_end_action, apply_ec2_end_action
+    return comment_urls, like_distro, loops, ec2_end_action, apply_ec2_end_action
 
 
 def get_params_for_comment_old():
@@ -61,10 +59,8 @@ def get_params():
 
 
 def test_comment_url():
-    article_url, article_id, comment_id, like, loops, ec2_end_action, apply_ec2_end_action = get_params_for_comment()
+    article_url, like, loops, ec2_end_action, apply_ec2_end_action = get_params_for_comment()
     print(article_url)
-    print(article_id)
-    print(comment_id)
     print(like)
     print(loops)
     print(ec2_end_action)
