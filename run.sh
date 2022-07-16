@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RIA_DIR=/home/ubuntu/git/ria
+RIA_DIR=/home/ubuntu/git/ua-ria-counter
 LOG=$RIA_DIR/log.out
 
 echo "XXXXXXXXXXXXXXXXXXXXXXXXX" > $LOG
