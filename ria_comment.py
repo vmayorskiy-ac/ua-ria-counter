@@ -12,10 +12,10 @@ import ec2
 def main():
     urls, like_distro, loops_distro, ec2_end_action, apply_ec2_end_action = params.get_params_for_comment()
 
-    for i in range(len(urls)):
-        url = urls[i]
-        loops = loops_distro[i]
-        
+    for instance_num in range(len(urls)):
+        url = urls[instance_num]
+        loops = loops_distro[instance_num]
+        print(f'instance_num: {instance_num}, loops: {loops_distro}, like_distro: {like_distro}') 
         article_id = parse.parse_qs(parse.urlparse(url).query)['chat_room_id'][0]
         comment_id = parse.parse_qs(parse.urlparse(url).query)['chat_message_id'][0]
 
@@ -32,7 +32,7 @@ def main():
             delay = 0.25
             time.sleep(delay)
 
-            like = get_like_from_distro(like_distro[i])
+            like = get_like_from_distro(like_distro[instance_num])
 
             # article emoji url
             #url2 = f'https://ria.ru/services/article/add_emoji/?article_id={article_id}&emotion={like}'
@@ -86,15 +86,33 @@ def test_choice():
         print(random.choice(['s2', 's4', 's5', 's6']))
         #print(random.randrange(1, 4, 1))
 
+
 def test_ec2_action(ec2_end_action = 'stop', apply_ec2_end_action = False):
     print(f'action: {ec2_end_action}, apply: {apply_ec2_end_action}')
     ec2.terminate_self(action = ec2_end_action, apply_action = apply_ec2_end_action)
 
 
+def test_multi():
+    urls, like_distro, loops_distro, ec2_end_action, apply_ec2_end_action = params.get_params_for_comment()
+
+    for i in range(len(urls)):
+        url = urls[i]
+        loops = loops_distro[i]
+        like_distro_str = like_distro[i]
+
+        print(f'i: {i}, loops: {loops_distro}, like_distro_str: {like_distro_str}')
+        article_id = parse.parse_qs(parse.urlparse(url).query)['chat_room_id'][0]
+        comment_id = parse.parse_qs(parse.urlparse(url).query)['chat_message_id'][0]
+
+        for j in range(loops):
+            like = get_like_from_distro(like_distro_str)
+            print(f'like from distro: {like}')
+
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     main()
-    #test_get_like_from_distro()
+    #test_multi()
 
 
 
