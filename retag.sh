@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG=1.0
+TAG=1.1
 
 git tag -d $TAG
 git push --delete origin $TAG
