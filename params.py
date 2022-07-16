@@ -22,12 +22,12 @@ def get_params_for_comment():
     article_id = parse.parse_qs(parse.urlparse(comment_url).query)['chat_room_id'][0] 
     message_id = parse.parse_qs(parse.urlparse(comment_url).query)['chat_message_id'][0] 
 
-    like = param_dict['like'] 
+    like_distro = param_dict['likes'] 
     loops = param_dict['loops']
     ec2_end_action = param_dict['ec2_end_action'] 
     apply_ec2_end_action = param_dict['apply_ec2_end_action'] == 'True'
     #loops = int(param['Parameter']['Value'].strip())
-    return comment_url, article_id, message_id, like, loops, ec2_end_action, apply_ec2_end_action
+    return comment_url, article_id, message_id, like_distro, loops, ec2_end_action, apply_ec2_end_action
 
 
 def get_params_for_comment_old():

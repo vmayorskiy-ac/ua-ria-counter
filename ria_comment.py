@@ -10,7 +10,7 @@ import ec2
 
 
 def main():
-    url, article_id, comment_id, like, loops, ec2_end_action, apply_ec2_end_action = params.get_params_for_comment()
+    url, article_id, comment_id, like_distro, loops, ec2_end_action, apply_ec2_end_action = params.get_params_for_comment()
 
     for i in range(loops):
         time.sleep(0.25)
@@ -25,6 +25,8 @@ def main():
         #delay = random.randrange(1, 4, 1)
         delay = 0.25
         time.sleep(delay)
+
+        like = get_like_from_distro(like_distro)
 
         # article emoji url
         #url2 = f'https://ria.ru/services/article/add_emoji/?article_id={article_id}&emotion={like}'
@@ -46,6 +48,33 @@ def main():
     ec2.terminate_self(action = ec2_end_action, apply_action = apply_ec2_end_action)
 
 
+def get_like_from_distro(distro='s1:2, s3:1', k=1):
+    tmp = distro.split(',')
+
+    likes = []
+    weights = ()
+    for i in tmp:
+        kv = i.strip().split(':')
+        likes.append(kv[0])
+        weights = weights + (float(kv[1]),)
+
+    print('LIKES WEIGHTS XXXXXXXXXXXX')
+    print(likes)
+    print(weights)
+    print('XXXXXXXXXXXX')
+
+    list = ['s1', 's2', 's3']
+    #res = random.choices(list, weights = (4, 2, 1), k=k)
+    res = random.choices(likes, weights = weights, k=k)
+    print(res)
+    return res[0]
+
+
+def test_get_like_from_distro():
+    res = get_like_from_distro(distro='s1:3, s2:2, s3:1', k=10)
+    print(res)
+
+
 def test_choice():
     for i in range(9):
         print(random.choice(['s2', 's4', 's5', 's6']))
@@ -59,7 +88,7 @@ def test_ec2_action(ec2_end_action = 'stop', apply_ec2_end_action = False):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     main()
-    #test_ec2_action('stop', True)
+    #test_get_like_from_distro()
 
 
 
