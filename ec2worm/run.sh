@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RIA_DIR=/home/ubuntu/git/ua-ria-counter
+RIA_DIR=/home/ubuntu/git/ua-ria-counter/ec2worm
 LOG=$RIA_DIR/log.out
 
 echo "XXXXXXXXXXXXXXXXXXXXXXXXX" > $LOG
