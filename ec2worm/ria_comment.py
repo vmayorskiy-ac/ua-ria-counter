@@ -32,7 +32,7 @@ def main():
     for t in threads:
         t.join()
 
-####    ec2.terminate_self(action=ec2_end_action, apply_action=apply_ec2_end_action)
+    ec2.terminate_self(action=ec2_end_action, apply_action=apply_ec2_end_action)
 
 
 def run_for_url(url, loops, likes, article_id, comment_id):
