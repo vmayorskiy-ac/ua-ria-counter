@@ -15,7 +15,7 @@ def run(specs_file_name='specs.json', launch_template_id='lt-094fa1f23c82c5f08')
     print(good_like_counts)
     update_specs(specs=specs)
 
-    if launch:
+    if launch and instance_count > 0:
         launch_instances(count=instance_count, launch_template_id=launch_template_id)
 
 

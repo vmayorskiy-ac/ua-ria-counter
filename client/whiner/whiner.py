@@ -26,7 +26,7 @@ def get_comment_urls(article_id, comment_quotes=[]):
                 txt = msg['text']
                 print(f'{msg_id}: {txt}')
 
-                msg_url = f'https://ria.ru/20220721/{article_id}.html?chat_message_id={msg_id}&chat_room_id={article_id}'
+                msg_url = f'https://ria.ru/20220716/{article_id}.html?chat_message_id={msg_id}&chat_room_id={article_id}'
 
                 # get emoji
                 for emoji in msgs['emoji_chat']:
@@ -75,10 +75,13 @@ def get_messages(article_id):
 
 def test_get_comment_urls():
     comment_quotes = [
-        "Считаете, что все должны одинаково думать"
+        "Срочно выражайте озабоченность! Если ничего не можете с этим поделать,то не пишите",
+        "А где наше хваленое противоспутниковое оружие?",
+        "Где удар по центру принятия решений???",
+        "Лазерные пушки, и джидайские мечи)))"
     ]
 
-    res = get_comment_urls(article_id='1803925366', comment_quotes=comment_quotes)
+    res = get_comment_urls(article_id='1801858016', comment_quotes=comment_quotes)
     #res = get_comment_urls(article_id='1803079781')
     pprint.pprint(res)
 
