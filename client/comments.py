@@ -3,7 +3,7 @@ import json
 import pprint
 
 
-def get_comment_urls(article_id, comment_quotes=[]):
+def get_comment_urls(article_id, comment_quotes=[], negatives=[]):
     #url = 'https://ria.ru/20220716/1802988486.html?chat_message_id=62d3219b61fa008202ccd037&chat_room_id=1802988486'
     #comment_quotes = ['В троллейбусное депо', 'наступает ночь,']
 
@@ -14,9 +14,17 @@ def get_comment_urls(article_id, comment_quotes=[]):
 
     msgs = get_messages(article_id)
 
-    for quote in comment_quotes:
+    for idx in range(len(comment_quotes)):
+    #for quote in comment_quotes:
+        quote = comment_quotes[idx]
+        neg = negatives[idx]
         msg_url = ''
-        msg_like = 's1:1'
+
+        if neg == 0:
+            msg_like = 's1:1'
+        else:
+            msg_like = 's6:1'
+
         msg_good_like_count = 0
         for msg in msgs['chat_messages']['messages']:
             if msg['text'].startswith(quote):
@@ -35,11 +43,24 @@ def get_comment_urls(article_id, comment_quotes=[]):
                         s1 = emoji['emotions']['s1']
                         s2 = emoji['emotions']['s2']
                         s3 = emoji['emotions']['s3']
-                        msg_like = f's1:{s1}'
-                        msg_good_like_count = s1 + s2 + s3
+                        s4 = emoji['emotions']['s4']
+                        s5 = emoji['emotions']['s5']
+                        s6 = emoji['emotions']['s6']
 
-                        if s2 > 0:
-                            msg_like = msg_like + f', s2:{s2}'
+                        if neg == 0:
+                            msg_like = f's1:{s1}'
+                            msg_good_like_count = s1 + s2 + s3
+
+                            if s2 > 0:
+                                msg_like = msg_like + f', s2:{s2}'
+
+                        else:
+                            msg_like = f's6:{s6}'
+                            msg_good_like_count = s4 + s5 + s6
+
+                            if s5 > 0:
+                                msg_like = msg_like + f', s5:{s5}'
+
 
         res_urls.append(msg_url)
         res_likes.append(msg_like)
@@ -75,11 +96,15 @@ def get_messages(article_id):
 
 def test_get_comment_urls():
     comment_quotes = [
-        "Считаете, что все должны одинаково думать"
+        "потому что не надо",
+        "Беспомощность какая то"
     ]
 
-    res = get_comment_urls(article_id='1803925366', comment_quotes=comment_quotes)
-    #res = get_comment_urls(article_id='1803079781')
+    negatives = [0, 1]
+
+    res = get_comment_urls(article_id='1804849193',
+                           comment_quotes=comment_quotes,
+                           negatives=negatives)
     pprint.pprint(res)
 
 

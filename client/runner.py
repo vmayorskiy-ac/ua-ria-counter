@@ -24,7 +24,9 @@ def build_specs(specs_file_name='specs.json'):
         specs_str = file.read()
     specs_json = json.loads(specs_str)
 
-    urls, likes, good_like_counts = comments.get_comment_urls(article_id=specs_json['article_id'], comment_quotes=specs_json['comment_quotes'])
+    urls, likes, good_like_counts = comments.get_comment_urls(article_id=specs_json['article_id'],
+                                                              comment_quotes=specs_json['comment_quotes'],
+                                                              negatives=specs_json['negatives'])
 
     specs_json['urls'] = urls
     specs_json['likes'] = likes
