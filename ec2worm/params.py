@@ -27,6 +27,22 @@ def get_params_for_comment():
     return comment_urls, like_distro, loops_distro, ec2_end_action, apply_ec2_end_action
 
 
+def get_params_for_whiner():
+    ssm = boto3.client('ssm', region_name='us-east-1')
+    param = ssm.get_parameter(Name='/ria/whiner/params')
+    param_json = param['Parameter']['Value'].strip()
+
+    print(param_json)
+
+    param_dict = json.loads(param_json)
+
+    #pprint.pprint(param_dict)
+
+    article_ids = param_dict['article_ids']
+
+    return article_ids
+
+
 def get_params_for_comment_old():
     ssm = boto3.client('ssm', region_name='us-east-1')
     param = ssm.get_parameter(Name='/ria/comment/url')
