@@ -6,7 +6,7 @@ LOG=$RIA_DIR/log.out
 echo "XXXXXXXXXXXXXXXXXXXXXXXXX" > $LOG
 echo `date` >> $LOG
 #cd $RIA_DIR
-python $RIA_DIR/ria_comment.py >> $LOG
+python $RIA_DIR/whiner.py >> $LOG
 echo "XXXXXXXXXXXXXXXXXXXXXXXXX" >> $LOG
 cat $LOG
 
