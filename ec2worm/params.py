@@ -39,8 +39,10 @@ def get_params_for_whiner():
     #pprint.pprint(param_dict)
 
     article_ids = param_dict['article_ids']
+    ec2_end_action = param_dict['ec2_end_action']
+    apply_ec2_end_action = param_dict['apply_ec2_end_action'] == 'True'
 
-    return article_ids
+    return article_ids, ec2_end_action, apply_ec2_end_action
 
 
 def get_params_for_comment_old():

@@ -3,21 +3,24 @@ import json
 import pprint
 import random
 import params
+import ec2
 
 
 def main():
-    article_ids = params.get_params_for_whiner()
+    article_ids, ec2_end_action, apply_ec2_end_action = params.get_params_for_whiner()
     #pprint.pprint(article_ids)
 
     article_id = random.choice(article_ids)
     complain(article_id)
+
+    ec2.terminate_self(action=ec2_end_action, apply_action=apply_ec2_end_action)
 
 
 def complain(article_id):
     session, msgs = get_messages(article_id)
     comments = msgs['chat_messages']['comment_ids']
 
-    for loop in range(10):
+    for loop in range(4):
         comment_id = random.choice(comments)
         send_complain(session, article_id, comment_id)
 
