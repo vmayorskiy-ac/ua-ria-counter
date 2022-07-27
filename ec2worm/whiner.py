@@ -20,7 +20,7 @@ def complain(article_id):
     session, msgs = get_messages(article_id)
     comments = msgs['chat_messages']['comment_ids']
 
-    for loop in range(10):
+    for loop in range(4):
         comment_id = random.choice(comments)
         send_complain(session, article_id, comment_id)
 
