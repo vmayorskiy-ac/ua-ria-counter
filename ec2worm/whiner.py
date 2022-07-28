@@ -2,27 +2,33 @@ import requests
 import json
 import pprint
 import random
+import time
 import params
 import ec2
 
 
 def main():
-    article_ids, ec2_end_action, apply_ec2_end_action = params.get_params_for_whiner()
-    #pprint.pprint(article_ids)
+    try:
+        article_ids, ec2_end_action, apply_ec2_end_action = params.get_params_for_whiner()
+        #pprint.pprint(article_ids)
 
-    article_id = random.choice(article_ids)
-    complain(article_id)
+        article_id = random.choice(article_ids)
+        complain(article_id)
+
+    except:
+        print('Exception occured')
 
     ec2.terminate_self(action=ec2_end_action, apply_action=apply_ec2_end_action)
 
 
-def complain(article_id):
+def complain(article_id, loops=10):
     session, msgs = get_messages(article_id)
     comments = msgs['chat_messages']['comment_ids']
 
-    for loop in range(4):
+    for loop in range(loops):
         comment_id = random.choice(comments)
         send_complain(session, article_id, comment_id)
+        time.sleep(2)
 
     return comments
 
