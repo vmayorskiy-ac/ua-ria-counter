@@ -31,7 +31,6 @@ def complain(article_id, loops=4):
     for loop in range(loops):
         comment_id = random.choice(comments)
         send_complain(session, article_id, comment_id)
-        time.sleep(2)
 
     return comments
 
