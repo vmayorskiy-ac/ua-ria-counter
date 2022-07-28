@@ -8,7 +8,7 @@ ec2_client = boto3.client('ec2', region_name='us-east-1')
 ssm_client = boto3.client('ssm')
 
 
-def run(specs_file_name='specs.json', launch_template_id='lt-094fa1f23c82c5f08'):
+def run(specs_file_name='specs/comments.json', launch_template_id='lt-094fa1f23c82c5f08'):
     instance_count, good_like_counts, launch, specs = build_specs(specs_file_name=specs_file_name)
 
     print(f'instance_count: {instance_count}')
@@ -19,7 +19,7 @@ def run(specs_file_name='specs.json', launch_template_id='lt-094fa1f23c82c5f08')
         launch_instances(count=instance_count, launch_template_id=launch_template_id)
 
 
-def build_specs(specs_file_name='specs.json'):
+def build_specs(specs_file_name):
     with open(specs_file_name, 'r', encoding="utf8") as file:
         specs_str = file.read()
     specs_json = json.loads(specs_str)
