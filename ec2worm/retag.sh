@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TAG=1.2.1
+TAG=1.4-whiner
 
 git tag -d $TAG
 git push --delete origin $TAG
