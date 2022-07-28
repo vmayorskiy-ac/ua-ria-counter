@@ -20,27 +20,18 @@ def run(specs,
     if launch and instance_count > 0:
         launch_instances(count=instance_count, launch_template_id=launch_template_id)
 
-
-def build_specs_XXX(specs_file_name):
+def build_specs(specs_file_name):
     with open(specs_file_name, 'r', encoding="utf8") as file:
         specs_str = file.read()
     specs_json = json.loads(specs_str)
 
-    urls, likes, good_like_counts = comments.get_comment_urls(article_id=specs_json['article_id'],
-                                                              comment_quotes=specs_json['comment_quotes'],
-                                                              negatives=specs_json['negatives'])
-
-    specs_json['urls'] = urls
-    specs_json['likes'] = likes
-    specs_json['good_like_counts'] = good_like_counts
-
     instance_count = specs_json['instance_count']
     launch = bool(specs_json['launch_instances'] == 'True')
 
-    del specs_json['comment_quotes']
-    #del specs_json['instance_count']
+    del specs_json['instance_count']
+    del specs_json['launch_instances']
 
-    return instance_count, good_like_counts, launch, json.dumps(specs_json, indent=4)
+    return instance_count, launch, specs_json
 
 
 def launch_instances(count, launch_template_id):
@@ -71,7 +62,7 @@ def update_param(name, value):
     )
 
 def test_build_specs():
-    res = build_specs_XXX()
+    res = build_specs()
     print(res)
 
 
