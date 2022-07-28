@@ -21,7 +21,7 @@ def main():
     ec2.terminate_self(action=ec2_end_action, apply_action=apply_ec2_end_action)
 
 
-def complain(article_id, loops=10):
+def complain(article_id, loops=4):
     session, msgs = get_messages(article_id)
     comments = msgs['chat_messages']['comment_ids']
 
