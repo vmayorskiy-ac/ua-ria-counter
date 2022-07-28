@@ -7,16 +7,17 @@
         ],
 "comment_quotes":
         [
+          "Вот она сущность",
           "В мае зашли"
        ],
 
 "loops": [9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
 "article_url": "https://ria.ru/20220728/popasnaya-1805503049.html",
 "article_id": "1805503049",
-"negatives": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+"negatives": [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 
 "instance_count": 1,
-"launch_instances": "x",
+"launch_instances": "True",
 
 "ec2_end_action": "terminate",
 "apply_ec2_end_action": "True"
