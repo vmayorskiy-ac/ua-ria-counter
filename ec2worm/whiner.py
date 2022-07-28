@@ -8,6 +8,9 @@ import ec2
 
 
 def main():
+    ec2_end_action = 'terminate'
+    apply_ec2_end_action = 'True'
+
     try:
         article_ids, ec2_end_action, apply_ec2_end_action = params.get_params_for_whiner()
         #pprint.pprint(article_ids)
