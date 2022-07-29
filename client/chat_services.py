@@ -7,16 +7,26 @@ import time
 
 def get_top_chat_rooms():
     article_ids = []
+    readable = []
+    #article_titles = []
+    #article_urls = []
 
     list = get_rooms()
-    toks_1 = list.split("<a class=\"r-list__item\" data-id=\"")
+    toks_1 = list.split("<a class=\"r-list__item\" ")
 
-    for tok in toks_1:
-        if tok.strip():
-            article_id = tok.split('"')[0]
+    for tok_2 in toks_1:
+        if tok_2.strip():
+            tok = tok_2.split('>')[0]
+
+            vars = tok.split(" data-")
+            article_id = vars[0].split('"')[1]
+            article_title = vars[1].split('=')[1].strip('"').strip('\'')
+            article_url = vars[2].split('"')[1]
+
             article_ids.append(article_id)
+            readable.append((article_id, article_url, article_title))
 
-    return article_ids
+    return article_ids, readable
 
 
 def get_rooms():
